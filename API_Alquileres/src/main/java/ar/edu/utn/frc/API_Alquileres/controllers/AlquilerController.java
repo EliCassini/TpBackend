@@ -4,11 +4,13 @@ import ar.edu.utn.frc.API_Alquileres.DTO.AlquilerDTO;
 import ar.edu.utn.frc.API_Alquileres.DTO.NewAlquilerDTO;
 import ar.edu.utn.frc.API_Alquileres.services.AlquilerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RestController
+@RequestMapping("/api/alquileres")
 public class AlquilerController {
 
     @Autowired
@@ -31,9 +33,15 @@ public class AlquilerController {
     }
 
     @PostMapping
-    public ResponseEntity<NewAlquilerDTO> createAlquiler(@RequestBody NewAlquilerDTO alquilerDto) {
-        NewAlquilerDTO createdAlquiler = alquilerService.save(alquilerDto);
-        return ResponseEntity.ok(createdAlquiler);
+    public ResponseEntity<String> createAlquiler(@RequestBody NewAlquilerDTO alquilerDto) {
+        NewAlquilerDTO createdAlquiler = null;
+        try {
+            createdAlquiler = alquilerService.save(alquilerDto);
+        } catch (Exception e) {
+            return new ResponseEntity<String>((e.getMessage()!= null && !e.getMessage().isEmpty())? e.getMessage().toString():"hubo un error al crear el alquiler",
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>("alquiler creado correctamente Alquiler: "+createdAlquiler.toString() ,HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

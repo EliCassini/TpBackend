@@ -18,10 +18,12 @@ public class Alquiler {
     private String id_cliente;
     @Column(name = "ESTADO")
     private int estado;
-    @Column(name = "ESTACION_RETIRO")
-    private int estacion_retiro;
-    @Column(name = "ESTACION_DEVOLUCION")
-    private int estacion_devolucion;
+    @ManyToOne
+    @JoinColumn(name = "ESTACION_RETIRO")
+    private Estacion estacion_retiro;
+    @ManyToOne
+    @JoinColumn(name = "ESTACION_DEVOLUCION")
+    private Estacion estacion_devolucion;
     @Column(name = "FECHA_HORA_RETIRO")
     private LocalDateTime fecha_hora_retiro;
     @Column(name = "FECHA_HORA_DEVOLUCION")
