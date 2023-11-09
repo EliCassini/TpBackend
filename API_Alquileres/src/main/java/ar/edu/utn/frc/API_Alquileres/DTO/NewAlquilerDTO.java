@@ -13,5 +13,5 @@ public class NewAlquilerDTO {
     private long id;
     private String id_cliente;
     private int estado;
-
+    private long estacion_retiro;
 }
